@@ -1,0 +1,116 @@
+\documentclass[11pt, a4paper, ngerman, twoside]{article}
+
+%% Die folgende Anleitung gilt für Linux:
+%%
+%%  Die Übersetzung dieses Dokuments erfolgt mit (ggf. öfter aufrufen):
+%%  pdflatex seminar.tex
+%%
+%%  Falls die Bibliographie geändert wurde, dann zusätzlich:
+%%  bibtex seminar
+%%
+%%  Bitte darauf achten, dass pdflatex und bibtex keine Warnungen und
+%%  keine Fehler melden.
+%%
+%%  Das Ergebnis kann man ansehen:
+%%  acroread seminar.pdf
+%%
+%%  Die Quelldatei einer deutschen Rechtschreibprüfung unterziehen:
+%%  ispell -d deutsch -T latin1 seminar.tex
+
+%% Kodierung des Dokuments
+\usepackage[utf8]{inputenc}
+
+%% Titel und Autor der Ausarbeitung (BITTE ANPASSEN!)
+\title{The Memento Design Pattern}
+\author{Daniel Geier}
+\date{} %% leer lassen
+
+%% Grafiken einbetten
+\usepackage{graphicx}
+
+%% Zusätzliche Mathe-Symbole
+\usepackage{amssymb}
+
+%% Verweise in der PDF
+\usepackage{hyperref} % important: load after float
+\hypersetup{
+	pdfproducer={pdfeTex 3.14159-1.30.6-2.2},
+	colorlinks=false,
+	pdfborder=0 0 0	% keine Box um die Links!
+}
+\usepackage{url}
+\urlstyle{rm}
+
+%% Programmcode Listings
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily}
+\usepackage{color}
+
+%% Seitenlayout (BITTE NICHT VERÄNDERN!)
+\oddsidemargin0mm
+\evensidemargin0mm
+\textwidth159.2mm
+\topmargin0mm
+\headheight0mm
+\textheight43\baselineskip
+
+%% Header und Footer (BITTE NICHT VERÄNDERN!)
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[RO,LE]{\thepage}\renewcommand\headrulewidth{0pt}}
+\fancyhf{}
+\fancyhead[LE]{\myauthor}
+\fancyhead[RO]{\mytitle}
+\fancyfoot[RO,LE]{\thepage}
+\setlength{\headheight}{14pt}
+\makeatletter
+\let\mytitle\@title
+\let\myauthor\@author
+\makeatother
+
+%% Theorem-Umgebungen
+\usepackage{amsthm}
+\renewcommand{\proofname}{Beweis}
+\theoremstyle{plain}\newtheorem{Lemma}{Lemma}
+\theoremstyle{plain}\newtheorem{Satz}[Lemma]{Satz}
+\theoremstyle{definition}\newtheorem{Definition}[Lemma]{Definition}
+\theoremstyle{definition}\newtheorem*{Beispiel}{Beispiel}
+\theoremstyle{remark}\newtheorem*{Bemerkung}{Bemerkung}
+
+%% Graphen und sonstige Zeichnungen
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+
+%\newcommand{\isdef}{=_{\mathrm{def}}}
+
+% Der eigentliche Inhalt startet hier
+\begin{document}
+	\maketitle
+
+	\begin{abstract} 
+		Memento is a design pattern to save stuff and roll back stuff and also does stuff.
+	\end{abstract}
+
+
+	%%  Der Text der Ausarbeitung ist hier einzufügen.
+	%%  Die Gliederung erfolgt mit \section und \subsection Befehlen.
+	%%  Referenzen innerhalb des Texts erfolgen mit \label und \ref Befehlen.
+	%%  Referenzen auf Literatur erfolgen mit dem \cite Befehl.
+	\section{Motivation}
+	\label{motivation}
+	
+	 
+	 \section{Intent}
+	
+	\section{Structure}
+	
+	\section{Sample Code}
+	
+	\section{Discussion}
+	
+	\bibliographystyle{plain}
+	\bibliography{seminar}
+\end{document}
