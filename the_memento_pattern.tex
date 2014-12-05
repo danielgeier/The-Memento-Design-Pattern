@@ -65,30 +65,14 @@
 \let\myauthor\@author
 \makeatother
 
-%% Theorem-Umgebungen
-\usepackage{amsthm}
-\renewcommand{\proofname}{Beweis}
-\theoremstyle{plain}\newtheorem{Lemma}{Lemma}
-\theoremstyle{plain}\newtheorem{Satz}[Lemma]{Satz}
-\theoremstyle{definition}\newtheorem{Definition}[Lemma]{Definition}
-\theoremstyle{definition}\newtheorem*{Beispiel}{Beispiel}
-\theoremstyle{remark}\newtheorem*{Bemerkung}{Bemerkung}
-
-%% Graphen und sonstige Zeichnungen
-\usepackage{tikz}
-\usetikzlibrary{shapes.geometric}
-\usetikzlibrary{shapes.misc}
-\usetikzlibrary{positioning}
-\usetikzlibrary{calc}
-
 %\newcommand{\isdef}{=_{\mathrm{def}}}
 
 % Der eigentliche Inhalt startet hier
 \begin{document}
 	\maketitle
 
-	\begin{abstract} 
-		Memento is a design pattern to save stuff and roll back stuff and also does stuff.
+	\begin{abstract} \noindent
+		Memento is a design pattern used for saving and restoring the (partial) state of objects without breaking encapsulation. I give a comprehensive overview of Memento covering when and how to use it. Examples are provided by my own thing.
 	\end{abstract}
 
 
