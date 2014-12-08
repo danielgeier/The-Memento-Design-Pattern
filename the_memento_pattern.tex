@@ -41,6 +41,17 @@
 %% Programmcode Listings
 \usepackage{listings}
 \lstset{basicstyle=\ttfamily}
+
+\lstset{language=C++,
+	basicstyle=\ttfamily,
+	keywordstyle=\color{blue}\ttfamily,
+	stringstyle=\color{red}\ttfamily,
+	commentstyle=\color{green}\ttfamily,
+	morecomment=[l][\color{magenta}]{\#},
+	frame=single,
+	numbers=left
+}
+
 \usepackage{color}
 \usepackage{framed}
 
@@ -127,8 +138,7 @@
 	\section{Sample Code}
 	The sample application is a Mandelbrot\footnote{Observations about the intrinsics involved in the calculation of the Mandelbrot and related fractals are made in \cite{mandelbrot1980fractal}.} fractal explorer written in \cpp. The fractal drawing and rendering is managed in the \verb|Mandelbrot| class. It is responsible for calculating the values of the Mandelbrot set and saving them in a array of pixels.
 	
-	\begin{lstlisting}[language=c]
-	/* Mandelbrot.h */
+	\begin{lstlisting}[language=c++, caption={Mandelbrot.h}]
 	class Mandelbrot
 	{
 	public:
@@ -155,8 +165,7 @@
 	
 	The Memento pattern is used for saving the state of the calculation and the calculated image.
 	
-	\begin{lstlisting}[language=c]
-	/* Mandelbrot.cpp */
+	\begin{lstlisting}[language=c++, caption={Mandelbrot.cpp}]
 	Memento* Mandelbrot::createMemento()
 	{
 		Memento* m = new Memento();
@@ -178,8 +187,7 @@
 	
 	A wide interface to \verb|Mandelbrot| is achieved by declaring it a \verb|friend| (see Section~\ref{sec:impl}).
 	
-	\begin{lstlisting}[language=c]
-	/* Memento.h */
+	\begin{lstlisting}[language=c++, caption={Memento.h}]
 	class Memento
 	{
 	public:
@@ -200,8 +208,7 @@
 	};
 	\end{lstlisting}
 	
-	\begin{lstlisting}[language=c]
-	/* Memento.cpp */
+	\begin{lstlisting}[language=c++, caption={Memento.cpp}]
 	void Memento::setPixels(uint32_t* oldPixels, int size)
 	{
 		pixels = new uint32_t[size];
@@ -232,8 +239,7 @@
 	
 	In the main event loop, \verb|zoomIn| is called, when the eponymous action is to be performed. A memento is created and put aside in dynamic storage.
 	
-	\begin{lstlisting}
-	/* Main.cpp */
+	\begin{lstlisting}[language=c++, caption={Main.cpp}]
 	void zoomIn() {
 		mementos.push_back(mandelbrot.createMemento());
 		mandelbrot.zoomIn(zoomRect);
@@ -243,8 +249,7 @@
 	
 	\verb|zoomOut| is called, when the user wants to return to the previous section of the fractal. A memento is retrieved from storage and the state of the \verb|Mandelbrot| object restored.
 	
-	\begin{lstlisting}
-	/* Main.cpp */
+	\begin{lstlisting}[language=c++, caption={Memento.cpp}]
 	void zoomOut() {
 		if (mementos.size() > 0) {
 			Memento* m = mementos.back();
