@@ -95,9 +95,9 @@
 	
 	\section{Introduction}
 	\label{sec:intro}
-	With growing average project sizes, code complexity has grown too. On the technical side, design patterns, made popular by Gamma \textit{et al.} \cite{gamma1993design}, are an attempt to tame this complexity with a structured object-oriented approach. The impact of design patterns were critically examined in a number of empirical investigations (e.g., \cite{bieman2003design}, \cite{porras2010empirical}, \cite{jeanmart2009impact}, \cite{khomh2008design}, \cite{di2008empirical}, \cite{prechelt2001controlled}, \cite{vokac2004defect}, \cite{vokavc2004controlled}), which led to mixed conclusions on the benefits patterns may bring. Nonetheless patterns, when carefully used, can bring key advantages to the design and implementation process.
+	The average project size in software development is constantly growing and so is code complexity. On the technical side, design patterns, made popular by Gamma \textit{et al.} \cite{gamma1993design}, are an attempt to tame this complexity with a structured object-oriented approach. The impact of design patterns were critically examined in a number of empirical investigations (e.g., \cite{bieman2003design}, \cite{porras2010empirical}, \cite{jeanmart2009impact}, \cite{khomh2008design}, \cite{di2008empirical}, \cite{prechelt2001controlled}, \cite{vokac2004defect}, \cite{vokavc2004controlled}), which led to mixed conclusions on the benefits patterns may bring. Nonetheless patterns, when carefully used, can bring key advantages to the design and implementation process.
 	
-	The Memento design pattern The analysis in this paper concentrates on the pattern as divulged in \cite{gamma1994design}.
+	The analysis in this paper concentrates on the Memento design pattern as it is presented in \cite{gamma1994design}.
 	
 	\section{Motivation}
 	\label{sec:motivation}
@@ -106,11 +106,11 @@
 	 Memento works by splitting the burden of managing state restoration between multiple classes, thus observing good development practices.
 	 	
 	\section{Structure}
-	The originator is the class whose state will be encapsulated by the memento.
+	\verb|Originator| is the class whose state will be encapsulated by our memento.
 	
-	The caretaker is the user of the originator. It is responsible for storing the mementos returned by the originator and returning them back to it. The caretaker never accesses the memento directly.
+	\verb|Caretaker| is the user of the originator. It is responsible for storing the mementos returned by the originator and returning them back to it. The caretaker never accesses the memento directly.
 	
-	The memento encapsulates the state of the originator. It provides set and get mechanisms for this state which is accessible only by the originator. This is achieved by defining a \emph{narrow} interface for the caretaker and a \emph{wide} one for the originator.
+	\verb|Memento| encapsulates the state of the originator. It provides set and get mechanisms for this state which is accessible only by the originator. This is achieved by defining a \emph{narrow} interface for the caretaker and a \emph{wide} one for the originator.
 	
 	\begin{figure}[htb]
 		\begin{center}
@@ -183,7 +183,7 @@
 	}
 	\end{lstlisting}
 	
-	The \verb|Memento| class saves the state which consists of a pointer to image data, \verb|pixels|, and the logical position of the Mandelbrot section, \verb|bounds|.
+	The \verb|Memento| class saves the state which consists of the image data, \verb|pixels|, and the logical position of the Mandelbrot section, \verb|bounds|.
 	
 	A wide interface to \verb|Mandelbrot| is achieved by declaring it a \verb|friend| (see Section~\ref{sec:impl}).
 	
@@ -249,7 +249,7 @@
 	
 	\verb|zoomOut| is called, when the user wants to return to the previous section of the fractal. A memento is retrieved from storage and the state of the \verb|Mandelbrot| object restored.
 	
-	\begin{lstlisting}[language=c++, caption={Memento.cpp}]
+	\begin{lstlisting}[language=c++, caption={Main.cpp}]
 	void zoomOut() {
 		if (mementos.size() > 0) {
 			Memento* m = mementos.back();
