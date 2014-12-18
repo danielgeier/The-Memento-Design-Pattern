@@ -53,7 +53,6 @@
 }
 
 \usepackage{color}
-\usepackage{framed}
 
 %% Seitenlayout (BITTE NICHT VERÄNDERN!)
 \oddsidemargin0mm
@@ -82,12 +81,6 @@
 % Der eigentliche Inhalt startet hier
 \begin{document}
 	\maketitle
-	
-	% GitHub notice
-	\begin{framed}
-		\noindent\textcolor{red}{Hinweis: Die aktuellste Version gibt es immer auf GitHub. Ihr seid herzlich dazu eingeladen, Issues aufzumachen!\footnotemark}
-	\end{framed}
-	\footnotetext{\url{https://github.com/danielgeier/The-Memento-Design-Pattern/blob/master/the_memento_pattern.pdf}, \url{https://github.com/danielgeier/The-Memento-Design-Pattern/issues/new}}
 
 	\begin{abstract} \noindent
  		Managing state restoration is a commonly occurring task in software development. Memento is a design pattern used for saving and restoring the (partial) state of objects. After examining reasons for using Memento, a comprehensive overview covering the static and dynamic structure is given. Examples from a \cpp{} source are presented. Benefits, drawbacks and implementation details in \cpp{} and \verb|Java| are discussed.
