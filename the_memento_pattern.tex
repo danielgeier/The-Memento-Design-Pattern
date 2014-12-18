@@ -94,16 +94,20 @@
 	
 	\section{Motivation}
 	\label{sec:motivation}
+	 Why invent a pattern to manage state changes in the first place? Why not use a simpler approach?
+	 
 	 When preserving the state of an object, the first technique that comes to mind is copying the variables that represent the state and copy them back to the object at a later time. Though seductive in its simplicity, this technique breaks encapsulation. Another possible solution, letting the stateful object manage its previous states by itself, violates separation of concern.\footnote{Section~\ref{sec:benefits} has more details on the benefits of encapsulation and the separation of concerns.}
 	 
 	 Memento works by splitting the burden of managing state restoration between multiple classes, thus observing good development practices.
 	 	
 	\section{Structure}
+	Three classes make up Memento: \verb|Originator|, \verb|Caretaker| and \verb|Memento|.
+	
 	\verb|Originator| is the class whose state will be encapsulated by our memento.
 	
-	\verb|Caretaker| is the user of the originator. It is responsible for storing the mementos returned by the originator and returning them back to it. The caretaker never accesses the memento directly.
+	\verb|Memento| encapsulates this state. It provides set and get mechanisms for this state which are accessible only to the originator. This is achieved by defining a \emph{narrow} interface for the caretaker and a \emph{wide} one for the originator.
 	
-	\verb|Memento| encapsulates the state of the originator. It provides set and get mechanisms for this state which is accessible only by the originator. This is achieved by defining a \emph{narrow} interface for the caretaker and a \emph{wide} one for the originator.
+	\verb|Caretaker| is the user of the originator. It is responsible for storing the mementos returned by the originator and returning them back to it. The caretaker never accesses the memento directly.
 	
 	\begin{figure}[htb]
 		\begin{center}
@@ -141,6 +145,7 @@
 		/* ... */
 		
 	private:
+		// Wide interface for the memento
 		friend class Memento;
 		
 		// Variables saved within the memento
@@ -169,6 +174,7 @@
 	
 	void Mandelbrot::setMemento(Memento* memento)
 	{
+		// Copy pixels from memento
 		memcpy(pixels,memento->getPixels(),
 			width * height * sizeof(uint32_t));
 		bounds = memento->getBounds();
@@ -205,6 +211,7 @@
 	void Memento::setPixels(uint32_t* oldPixels, int size)
 	{
 		pixels = new uint32_t[size];
+		// Copy pixels from mandelbrot
 		memcpy(pixels, oldPixels,
 			size * sizeof(uint32_t));
 	}
@@ -234,6 +241,7 @@
 	
 	\begin{lstlisting}[language=c++, caption={Main.cpp}]
 	void zoomIn() {
+		// mementos is a list of previous mementos
 		mementos.push_back(mandelbrot.createMemento());
 		mandelbrot.zoomIn(zoomRect);
 		mandelbrot.render(renderer, screenTexture);
@@ -245,6 +253,7 @@
 	\begin{lstlisting}[language=c++, caption={Main.cpp}]
 	void zoomOut() {
 		if (mementos.size() > 0) {
+			// Retrieve last memento
 			Memento* m = mementos.back();
 			mementos.pop_back();
 			
@@ -257,13 +266,19 @@
 	}
 	\end{lstlisting}
 	
+	\subsection{Implementation Details}
+	\label{sec:impl}
+	In Java, \emph{static nested classes} can access private members of its surrounding class and vice versa. In such a way the memento can be implemented as a static nested class of the originator class.
+	
+	In C++ the \verb|friend| keyword signals that the stated class may access private members of the class. Hence the memento has to declare the originator as a \verb|friend|, as does the originator with the memento.
+	
 	\section{Discussion}
 	
 	\subsection{Benefits}
 	\label{sec:benefits}
 	\emph{Encapsulation}. Encapsulation has been shown to provide key benefits in the understandability and changeability of a computer program \cite{snyder1986}. As already explored in Section~\ref{sec:motivation}, simply copying member variables is unsuitable for maintaining good development practices; exposing state variables involves confiding implementation-specific details of the class. The memento object encapsulates the state of the originator. Inaccessible for all but the originator, the state is safe from unsound modifications from outside objects. \\
 	
-	\noindent\emph{Separation of concerns\footnote{An excellent source on separation of concerns is \cite{Huersch95}.}}. Before using Memento, the originator had to manage all state-restoring functionality by itself to maintain proper encapsulation. With this functionality moved into Memento, the originator is simplified.
+	\noindent\emph{Separation of concerns\footnote{An in-depth treatment on separation of concerns is \cite{Huersch95}.}}. Before using Memento, the originator had to manage all state-restoring functionality by itself to maintain proper encapsulation. With this functionality moved into Memento, the originator is simplified.
 	
 	\subsection{Drawbacks}
 	\emph{Memory overhead}. Depending on how easily the state can be refactored out of the originator, there may be a substantial memory overhead in creating a memento. \\
@@ -271,12 +286,6 @@
 	\noindent\emph{Defining different interfaces}. Some programming languages may lack facilities for declaring both a narrow and wide interface. \\
 	
 	\noindent\emph{Hidden costs}. As the implementation of the memento is hidden from the caretaker, it doesn't know how much state the memento is managing. It will therefore be hard to assess the memory consumption of a possibly otherwise lightweight caretaker.
-	
-	\subsection{Implementation Details}
-	\label{sec:impl}
-	In Java, \emph{static nested classes} can access private members of its surrounding class and vice versa. In such a way the memento can be implemented as a static nested class of the originator class.
-	
-	In C++ the \verb|friend| keyword signals that the stated class may access private members of the class. Hence the memento has to declare the originator as a \verb|friend|, as does the originator with the memento.
 	
 	\bibliographystyle{plain}
 	\bibliography{the_memento_pattern}
