@@ -88,7 +88,7 @@
 	
 	\section{Introduction}
 	\label{sec:intro}
-	The average project size in software development is constantly growing and so is code complexity. On the technical side, design patterns, made popular by Gamma \textit{et al.} \cite{gamma1993design}, are an attempt to tame this complexity with a structured object-oriented approach. The impact of design patterns were critically examined in a number of empirical investigations (e.g., \cite{bieman2003design}, \cite{porras2010empirical}, \cite{jeanmart2009impact}, \cite{khomh2008design}, \cite{di2008empirical}, \cite{prechelt2001controlled}, \cite{vokac2004defect}, \cite{vokavc2004controlled}), which led to mixed conclusions on the benefits patterns may bring. Nonetheless patterns, when carefully used, can bring key advantages to the design and implementation process.
+	The average project size in software development is constantly growing and so is code complexity. On the technical side, design patterns, made popular by Gamma \textit{et al.} \cite{gamma1993design}, are an attempt to tame this complexity with a structured object-oriented approach. The impact of design patterns were critically examined in a number of empirical investigations (e.g., \cite{jeanmart2009impact}, \cite{khomh2008design}, \cite{di2008empirical}, \cite{prechelt2001controlled}, \cite{vokac2004defect}, \cite{vokavc2004controlled}), which led to mixed conclusions on the benefits patterns may bring. Nonetheless patterns, when carefully used, can bring key advantages to the design and implementation process.
 	
 	The analysis in this paper concentrates on the Memento design pattern as it is presented in \cite{gamma1994design}.
 	
@@ -101,6 +101,7 @@
 	 Memento works by splitting the burden of managing state restoration between multiple classes, thus observing good development practices.
 	 	
 	\section{Structure}
+	\subsection{Static Structure}
 	Three classes make up Memento: \verb|Originator|, \verb|Caretaker| and \verb|Memento|.
 	
 	\verb|Originator| is the class whose state will be encapsulated by our memento.
@@ -120,6 +121,8 @@
 	As one can see in figure \ref{fig:class}, \verb|Originator| implements the method \verb|createMemento| for creating a memento, while \verb|setMemento| is used to load the previous state. \verb|Memento| implements accessors for its state, which should only be accessible to the \verb|Originator|. \verb|Caretaker| doesn't implement any methods specific to the pattern.
 	
 	The key to Memento lies in implementing two different interfaces for \verb|Originator| and \verb|Caretaker|. The details of \verb|Memento| should be opaque to all but \verb|Originator| which accesses \verb|Memento| through a \emph{wide} interface. All other participants interact with \verb|Memento| through an \emph{narrow} interface, which leaves \verb|Memento| opaque to them. This poses difficulties in programming languages who lack mechanism to define such constructs. Section~\ref{sec:impl} discusses mechanisms in \cpp{} and \verb|Java| for defining those interfaces.
+	
+	\subsection{Dynamic Structure}
 	
 	\begin{figure}[htb]
 		\begin{center}
@@ -270,7 +273,7 @@
 	\label{sec:impl}
 	In Java, \emph{static nested classes} can access private members of its surrounding class and vice versa. In such a way the memento can be implemented as a static nested class of the originator class.
 	
-	In C++ the \verb|friend| keyword signals that the stated class may access private members of the class. Hence the memento has to declare the originator as a \verb|friend|, as does the originator with the memento.
+	In C++ a class that is marked with the \verb|friend| keyword may access private members of the class. Hence the memento has to declare the originator as a \verb|friend|, as does the originator with the memento.
 	
 	\section{Discussion}
 	
@@ -286,6 +289,12 @@
 	\noindent\emph{Defining different interfaces}. Some programming languages may lack facilities for declaring both a narrow and wide interface. \\
 	
 	\noindent\emph{Hidden costs}. As the implementation of the memento is hidden from the caretaker, it doesn't know how much state the memento is managing. It will therefore be hard to assess the memory consumption of a possibly otherwise lightweight caretaker.
+	
+	\subsection{Comparision with Other Patterns}
+	A similar pattern, is \emph{Memoization}. \emph{Memoization} is most often used for program-speed optimization. If a time-consuming function has a manageable number of possible inputs and outputs, the most common results are saved in an appropriate data structure like a hash table.
+	
+	\section{Conclusions}
+	Though a number of drawbacks limit the usefulness of Memento, wisely used it can be an asset for suitable applications. Just as much as any other design strategy, the use of a pattern has to be weighed carefully against the added complexity it adds to the project. Only when a right fit of pattern to problem is determined, the pattern unfolds its potential.
 	
 	\bibliographystyle{plain}
 	\bibliography{the_memento_pattern}
