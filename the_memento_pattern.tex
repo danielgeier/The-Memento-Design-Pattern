@@ -98,7 +98,7 @@
 	 
 	 When preserving the state of an object, the first technique that comes to mind is copying the variables that represent the state and copy them back to the object at a later time. Though seductive in its simplicity, this technique breaks encapsulation. Another possible solution, letting the stateful object manage its previous states by itself, violates separation of concern.Section~\ref{sec:benefits} has more details on the benefits of encapsulation and the separation of concerns.
 	 
-	 Memento works by splitting the burden of managing state restoration between multiple classes, thus observing good development practices.
+	 Memento works by splitting the burden of managing state restoration between multiple classes, thus preserving good development practices.
 	 	
 	\section{Structure}
 	\subsection{Static Structure}
@@ -118,7 +118,7 @@
 		\end{center}
 	\end{figure}
 	
-	As one can see in figure \ref{fig:class}, \verb|Originator| implements the method \verb|createMemento| for creating a memento, while \verb|setMemento| is used to load the previous state. \verb|Memento| implements accessors for its state, which should only be accessible to the \verb|Originator|. \verb|Caretaker| doesn't implement any methods specific to the pattern.
+	As one can see in figure \ref{fig:class}, \verb|Originator| implements the method \verb|createMemento| for creating a memento, while \verb|setMemento| is used to load a previous state. \verb|Memento| implements accessors for its state, which should only be accessible to the \verb|Originator|. \verb|Caretaker| doesn't implement any methods specific to the pattern.
 	
 	The key to Memento lies in implementing two different interfaces for \verb|Originator| and \verb|Caretaker|. The details of \verb|Memento| should be opaque to all but \verb|Originator| which accesses \verb|Memento| through a \emph{wide} interface. All other participants interact with \verb|Memento| through an \emph{narrow} interface, which leaves \verb|Memento| opaque to them. This poses difficulties in programming languages who lack mechanism to define such constructs. Section~\ref{sec:impl} discusses mechanisms in \cpp{} and \verb|Java| for defining those interfaces.
 	
@@ -138,7 +138,7 @@
 	\section{Sample Code}
 	Observations about the intrinsics involved in the calculation of the Mandelbrot and related fractals are made in \cite{mandelbrot1980fractal}.
 	
-	The sample application is a Mandelbrot  fractal explorer written in \cpp. The fractal drawing and rendering is managed in the \verb|Mandelbrot| class. It is responsible for calculating the values of the Mandelbrot set and saving them in a array of pixels.
+	The sample application is a Mandelbrot  fractal explorer written in \cpp. The fractal drawing and rendering is managed in the \verb|Mandelbrot| class. It is responsible for calculating the values of the Mandelbrot set and saving them in an array of pixels.
 	
 	\begin{lstlisting}[language=c++, caption={Mandelbrot.h}]
 	class Mandelbrot
@@ -189,7 +189,7 @@
 	
 	The \verb|Memento| class saves the state which consists of the image data, \verb|pixels|, and the logical position of the Mandelbrot section, \verb|bounds|.
 	
-	A wide interface to \verb|Mandelbrot| is achieved by declaring it a \verb|friend| (see Section~\ref{sec:impl}).
+	A wide interface to \verb|Mandelbrot| is achieved by declaring it as a \verb|friend| (see Section~\ref{sec:impl}).
 	
 	\begin{lstlisting}[language=c++, caption={Memento.h}]
 	class Memento
