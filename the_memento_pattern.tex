@@ -96,7 +96,7 @@
 	\label{sec:motivation}
 	 Why invent a pattern to manage state changes in the first place? Why not use a simpler approach?
 	 
-	 When preserving the state of an object, the first technique that comes to mind is copying the variables that represent the state and copy them back to the object at a later time. Though seductive in its simplicity, this technique breaks encapsulation. Another possible solution, letting the stateful object manage its previous states by itself, violates separation of concern.Section~\ref{sec:benefits} has more details on the benefits of encapsulation and the separation of concerns.
+	 When preserving the state of an object, the first technique that comes to mind is copying the variables that represent the state and copy them back to the object at a later time. Though seductive in its simplicity, this technique breaks encapsulation. Another possible solution, letting the stateful object manage its previous states by itself, violates separation of concern.
 	 
 	 Memento works by splitting the burden of managing state restoration between multiple classes, thus preserving good development practices.
 	 	
