@@ -96,7 +96,7 @@
 	\label{sec:motivation}
 	 Why invent a pattern to manage state changes in the first place? Why not use a simpler approach?
 	 
-	 When preserving the state of an object, the first technique that comes to mind is copying the variables that represent the state and copy them back to the object at a later time. Though seductive in its simplicity, this technique breaks encapsulation. Another possible solution, letting the stateful object manage its previous states by itself, violates separation of concern.\footnote{Section~\ref{sec:benefits} has more details on the benefits of encapsulation and the separation of concerns.}
+	 When preserving the state of an object, the first technique that comes to mind is copying the variables that represent the state and copy them back to the object at a later time. Though seductive in its simplicity, this technique breaks encapsulation. Another possible solution, letting the stateful object manage its previous states by itself, violates separation of concern.Section~\ref{sec:benefits} has more details on the benefits of encapsulation and the separation of concerns.
 	 
 	 Memento works by splitting the burden of managing state restoration between multiple classes, thus observing good development practices.
 	 	
@@ -136,7 +136,9 @@
 	
 	
 	\section{Sample Code}
-	The sample application is a Mandelbrot\footnote{Observations about the intrinsics involved in the calculation of the Mandelbrot and related fractals are made in \cite{mandelbrot1980fractal}.} fractal explorer written in \cpp. The fractal drawing and rendering is managed in the \verb|Mandelbrot| class. It is responsible for calculating the values of the Mandelbrot set and saving them in a array of pixels.
+	Observations about the intrinsics involved in the calculation of the Mandelbrot and related fractals are made in \cite{mandelbrot1980fractal}.
+	
+	The sample application is a Mandelbrot  fractal explorer written in \cpp. The fractal drawing and rendering is managed in the \verb|Mandelbrot| class. It is responsible for calculating the values of the Mandelbrot set and saving them in a array of pixels.
 	
 	\begin{lstlisting}[language=c++, caption={Mandelbrot.h}]
 	class Mandelbrot
@@ -281,7 +283,7 @@
 	\label{sec:benefits}
 	\emph{Encapsulation}. Encapsulation has been shown to provide key benefits in the understandability and changeability of a computer program \cite{snyder1986}. As already explored in Section~\ref{sec:motivation}, simply copying member variables is unsuitable for maintaining good development practices; exposing state variables involves confiding implementation-specific details of the class. The memento object encapsulates the state of the originator. Inaccessible for all but the originator, the state is safe from unsound modifications from outside objects. \\
 	
-	\noindent\emph{Separation of concerns\footnote{An in-depth treatment on separation of concerns is \cite{Huersch95}.}}. Before using Memento, the originator had to manage all state-restoring functionality by itself to maintain proper encapsulation. With this functionality moved into Memento, the originator is simplified.
+	\noindent\emph{Separation of concerns}. Before using Memento, the originator had to manage all state-restoring functionality by itself to maintain proper encapsulation. With this functionality moved into Memento, the originator is simplified. An in-depth treatment on separation of concerns is \cite{Huersch95}.
 	
 	\subsection{Drawbacks}
 	\emph{Memory overhead}. Depending on how easily the state can be refactored out of the originator, there may be a substantial memory overhead in creating a memento. \\
