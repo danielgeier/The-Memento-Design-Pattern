@@ -342,10 +342,12 @@ class Originator {
 	
 	\noindent\emph{Hidden costs}. As the implementation of the memento is hidden from the caretaker, it doesn't know how much state the memento is managing. It will therefore be hard to assess the memory consumption of a possibly otherwise lightweight caretaker.
 	
-	\subsection{Comparision with Other Patterns}
-	A similar pattern, is \emph{Memoization}. \emph{Memoization} is most often used for program-speed optimization. If a time-consuming function has a manageable number of possible inputs and outputs, the most common results are saved in an appropriate data structure like a hash table.
+	\subsection{Comparison with Other Patterns}
+	A similar pattern, is \emph{Memoization}. \emph{Memoization} is most often used for program-speed optimization. It is the simple storing of function values to avoid repetitively calculating the same values over and over again. This is feasible if a time-consuming function has a manageable number of possible inputs and outputs; The most common outputs can be saved in an appropriate data structure like a hash table.
 	
 	\section{Conclusions}
+	We have seen that Memento can be useful for managing state restoration.
+	
 	Though a number of drawbacks limit the usefulness of Memento, wisely used it can be an asset for suitable applications. Just as much as any other design strategy, the use of a pattern has to be weighed carefully against the added complexity it adds to the project. Only when a right fit of pattern to problem is determined, the pattern unfolds its potential.
 	
 	\bibliographystyle{unsrt}
