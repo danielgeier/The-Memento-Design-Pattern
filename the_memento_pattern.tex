@@ -123,7 +123,11 @@
 	
 	As one can see in figure \ref{fig:class}, \verb|Originator| implements the method \verb|createMemento| for creating a memento, while \verb|setMemento| is used to load a previous state. \verb|Memento| implements accessors for its state, which should only be accessible to the \verb|Originator|. \verb|Caretaker| doesn't implement any methods specific to the pattern.
 	
-	The key to Memento lies in implementing two different interfaces for \verb|Originator| and \verb|Caretaker|. The details of \verb|Memento| should be opaque to all but \verb|Originator| which accesses \verb|Memento| through a \emph{wide} interface. All other participants interact with \verb|Memento| through an \emph{narrow} interface, which leaves \verb|Memento| opaque to them. This poses difficulties in programming languages who lack mechanism to define such constructs. Section~\ref{sec:impl} discusses mechanisms in \cpp{} and \verb|Java| for defining those interfaces.
+	\subsubsection{A \emph{Wide} and a \emph{Narrow} Interface}
+	
+	The key to Memento lies in implementing two different interfaces for \verb|Originator| and \verb|Caretaker|. The details of \verb|Memento| should be opaque to all but \verb|Originator| which accesses \verb|Memento| through a \emph{wide} interface. This way, \verb|Originator| can access the state  of \verb|Memento| while all other participants interact with \verb|Memento| through an \emph{narrow} interface, which leaves it opaque to them, i.e., they cannot access \verb|Memento|'s state or call its methods.
+	
+	This poses difficulties in programming languages who lack mechanism to define such constructs. Section~\ref{sec:impl} discusses mechanisms in \cpp{} and \verb|Java| for defining those interfaces.
 	
 	\subsection{Dynamic Structure}
 	
