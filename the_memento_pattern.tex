@@ -53,6 +53,7 @@
 }
 
 \usepackage{color}
+\usepackage{cite}
 
 %% Seitenlayout (BITTE NICHT VERÄNDERN!)
 \oddsidemargin0mm
@@ -101,6 +102,8 @@
 	 Memento works by splitting the burden of managing state restoration between multiple classes, thus preserving good development practices.
 	 	
 	\section{Structure}
+	The structure of a pattern can broken down into a \emph{static structure} and a \emph{dynamic structure}. The \emph{static structure} is composed of the object-oriented classes, their member variables, and their functions while the interactions between these static elements constitute the \emph{dynamic structure}. 
+	
 	\subsection{Static Structure}
 	Three classes make up Memento: \verb|Originator|, \verb|Caretaker| and \verb|Memento|.
 	
@@ -298,6 +301,6 @@
 	\section{Conclusions}
 	Though a number of drawbacks limit the usefulness of Memento, wisely used it can be an asset for suitable applications. Just as much as any other design strategy, the use of a pattern has to be weighed carefully against the added complexity it adds to the project. Only when a right fit of pattern to problem is determined, the pattern unfolds its potential.
 	
-	\bibliographystyle{plain}
+	\bibliographystyle{unsrt}
 	\bibliography{the_memento_pattern}
 \end{document}
