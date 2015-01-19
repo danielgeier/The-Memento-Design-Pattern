@@ -310,9 +310,11 @@ class Originator {
 		this.data = m.data;
 	}
 	
-	// This is a static nested class. Its private members can
-	// only be accessed by its outer class. In this context,
-	// 'static' does not mean that
+	// This is a static nested class -  its private members
+	// can only be accessed by its outer class.
+	// In this context, 'static' means that a Memento object
+	// can be instantiated independently from an Originator
+	// object.
 	static class Memento {
 		private String data;
 	
