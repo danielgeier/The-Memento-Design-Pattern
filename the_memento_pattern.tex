@@ -143,148 +143,191 @@
 	
 	
 	\section{Sample Code}
-	Observations about the intrinsics involved in the calculation of the Mandelbrot and related fractals are made in \cite{mandelbrot1980fractal}.
 	
-	The sample application is a Mandelbrot  fractal explorer written in \cpp. The fractal drawing and rendering is managed in the \verb|Mandelbrot| class. It is responsible for calculating the values of the Mandelbrot set and saving them in an array of pixels.
+	\begin{figure}[htb]
+		\begin{center}
+			\includegraphics[width=\textwidth]{mandelbrot.png}
+			\caption{Part of the Mandelbrot figure as rendered by our program.}
+			\label{fig:mandelbrot}
+		\end{center}
+	\end{figure}
 	
-	\begin{lstlisting}[language=c++, caption={Mandelbrot.h}]
-	class Mandelbrot
-	{
-	public:
-		Memento* createMemento();
-		void setMemento(Memento* memento);
-		
-		/* ... */
-		
-	private:
-		// Wide interface for the memento
-		friend class Memento;
-		
-		// Variables saved within the memento
-		Dimensions bounds;
-		uint32_t* pixels;
-		
-		// Independent state variables
-		int iterations;
-		int width, height;
-		bool doCalc;
-		
-		/* ... */
+	The sample application is a Mandelbrot  fractal explorer written in \cpp. We use a $c$-value of 1 to obtain the most famous of the Mandelbrot fractals. The fractal drawing and rendering is managed in the \verb|Mandelbrot| class. It is responsible for calculating the values of the Mandelbrot set and saving them in an array of pixels.
+	
+	\subsection{About Fractals}
+	A fractal is a phenomenon that displays repeating patterns at every level of scale. The Mandelbrot fractal in specific is the set of complex numbers $c$ for which the sequence $c_{n+1} = c_n + c$ does not converge to infinity for $n \to \infty$. Observations about the intrinsics involved in the calculation of the Mandelbrot and related fractals are made by Mandelbrot himself~\cite{mandelbrot1980fractal}.
+	
+	\subsection{Code}
+	\label{subsec:code}
+	The Memento pattern is used for saving the state of the calculation and the calculated image in Listings \ref{Mandelbrot.h} and \ref{Mandelbrot.cpp}.
+	
+	\begin{lstlisting}[language=c++, caption={Mandelbrot.h}, label={Mandelbrot.h}]
+class Mandelbrot
+{
+public:
+	Memento* createMemento();
+	void setMemento(Memento* memento);
+	
+	/* ... */
+	
+private:
+	// Wide interface for the memento
+	friend class Memento;
+	
+	// Variables saved within the memento
+	Dimensions bounds;
+	uint32_t* pixels;
+	
+	// Independent state variables
+	int iterations;
+	int width, height;
+	bool doCalc;
+	
+	/* ... */
 	};
 	\end{lstlisting}
 	
-	The Memento pattern is used for saving the state of the calculation and the calculated image.
-	
-	\begin{lstlisting}[language=c++, caption={Mandelbrot.cpp}]
-	Memento* Mandelbrot::createMemento()
-	{
-		Memento* m = new Memento();
-		m->setPixels(pixels, width * height);
-		m->setBounds(bounds);
-		return m;
-	}
-	
-	void Mandelbrot::setMemento(Memento* memento)
-	{
-		// Copy pixels from memento
-		memcpy(pixels,memento->getPixels(),
-			width * height * sizeof(uint32_t));
-		bounds = memento->getBounds();
-		doCalc = false;
-	}
+	\begin{lstlisting}[language=c++, caption={Mandelbrot.cpp}, label={Mandelbrot.cpp}]
+Memento* Mandelbrot::createMemento()
+{
+	Memento* m = new Memento();
+	m->setPixels(pixels, width * height);
+	m->setBounds(bounds);
+	return m;
+}
+
+void Mandelbrot::setMemento(Memento* memento)
+{
+	// Copy pixels from memento
+	memcpy(pixels,memento->getPixels(),
+		width * height * sizeof(uint32_t));
+	bounds = memento->getBounds();
+	doCalc = false;
+}
 	\end{lstlisting}
 	
-	The \verb|Memento| class saves the state which consists of the image data, \verb|pixels|, and the logical position of the Mandelbrot section, \verb|bounds|.
+	In Listings \ref{Memento.h} and \ref{Memento.cpp}, the \verb|Memento| class saves the state which consists of the image data, \verb|pixels|, and the logical position of the Mandelbrot section, \verb|bounds|. A wide interface to \verb|Mandelbrot| is achieved by declaring it as a \verb|friend|.
 	
-	A wide interface to \verb|Mandelbrot| is achieved by declaring it as a \verb|friend| (see Section~\ref{sec:impl}).
+	\begin{lstlisting}[language=c++, caption={Memento.h}, label={Memento.h}]
+class Memento
+{
+public:
+	~Memento();
 	
-	\begin{lstlisting}[language=c++, caption={Memento.h}]
-	class Memento
-	{
-	public:
-		~Memento();
-		
-	private:
-		friend class Mandelbrot;
-		
-		uint32_t* pixels;
-		Dimensions bounds;
-		
-		Memento();
-		void setPixels(uint32_t* oldPixels, int size);
-		void setBounds(Dimensions bounds);
-		
-		uint32_t* getPixels();
-		Dimensions getBounds();
-	};
+private:
+	friend class Mandelbrot;
+	
+	uint32_t* pixels;
+	Dimensions bounds;
+	
+	Memento();
+	void setPixels(uint32_t* oldPixels, int size);
+	void setBounds(Dimensions bounds);
+	
+	uint32_t* getPixels();
+	Dimensions getBounds();
+};
 	\end{lstlisting}
 	
-	\begin{lstlisting}[language=c++, caption={Memento.cpp}]
-	void Memento::setPixels(uint32_t* oldPixels, int size)
-	{
-		pixels = new uint32_t[size];
-		// Copy pixels from mandelbrot
-		memcpy(pixels, oldPixels,
-			size * sizeof(uint32_t));
-	}
-	
-	void Memento::setBounds(Dimensions oldBounds)
-	{
-		bounds = oldBounds;
-	}
-	
-	Memento::~Memento()
-	{
-		delete[] pixels;
-	}
-	
-	uint32_t* Memento::getPixels()
-	{
-		return pixels;
-	}
-	
-	Dimensions Memento::getBounds()
-	{
-		return bounds;
-	}
+	\begin{lstlisting}[language=c++, caption={Memento.cpp}, label={Memento.cpp}]
+void Memento::setPixels(uint32_t* oldPixels, int size)
+{
+	pixels = new uint32_t[size];
+	// Copy pixels from mandelbrot
+	memcpy(pixels, oldPixels,
+		size * sizeof(uint32_t));
+}
+
+void Memento::setBounds(Dimensions oldBounds)
+{
+	bounds = oldBounds;
+}
+
+Memento::~Memento()
+{
+	delete[] pixels;
+}
+
+uint32_t* Memento::getPixels()
+{
+	return pixels;
+}
+
+Dimensions Memento::getBounds()
+{
+	return bounds;
+}
 	\end{lstlisting}
 	
-	In the main event loop, \verb|zoomIn| is called, when the eponymous action is to be performed. A memento is created and put aside in dynamic storage.
+	We want to allow the user to zoom into the fractal. For this, she has to select a portion of the image by drawing a rectangle. Subsequently \verb|zoomIn()| is called.
 	
-	\begin{lstlisting}[language=c++, caption={Main.cpp}]
-	void zoomIn() {
-		// mementos is a list of previous mementos
-		mementos.push_back(mandelbrot.createMemento());
-		mandelbrot.zoomIn(zoomRect);
-		mandelbrot.render(renderer, screenTexture);
-	}
+	Listing \ref{Main.cpp} show how a Memento is created and put aside in dynamic storage before zooming in. The memento will restored at a later point to zoom out of the image.
+	
+	\begin{lstlisting}[language=c++, caption={Main.cpp}, label={Main.cpp}]
+void zoomIn() {
+	// mementos is a list of previous mementos
+	mementos.push_back(mandelbrot.createMemento());
+	mandelbrot.zoomIn(zoomRect);
+	mandelbrot.render(renderer, screenTexture);
+}
 	\end{lstlisting}
 	
-	\verb|zoomOut| is called, when the user wants to return to the previous section of the fractal. A memento is retrieved from storage and the state of the \verb|Mandelbrot| object restored.
+	The user may want to zoom out of the image to explore another part of the fractal. She can do so by clicking a button whereupon \verb|zoomOut()| is called. In Listing \ref{Main.cpp2} a previously stored memento is retrieved from storage. The state of the \verb|Mandelbrot| object is restored.
 	
-	\begin{lstlisting}[language=c++, caption={Main.cpp}]
-	void zoomOut() {
-		if (mementos.size() > 0) {
-			// Retrieve last memento
-			Memento* m = mementos.back();
-			mementos.pop_back();
-			
-			mandelbrot.setMemento(m);
-			mandelbrot.render(renderer,
-				screenTexture);
-			
-			delete m;
-		}
+	\begin{lstlisting}[language=c++, caption={Main.cpp}, label={Main.cpp2}]
+void zoomOut() {
+	if (mementos.size() > 0) {
+		// Retrieve last memento
+		Memento* m = mementos.back();
+		mementos.pop_back();
+		
+		mandelbrot.setMemento(m);
+		mandelbrot.render(renderer,
+			screenTexture);
+		
+		delete m;
 	}
+}
 	\end{lstlisting}
 	
 	\subsection{Implementation Details}
 	\label{sec:impl}
-	In Java, \emph{static nested classes} can access private members of its surrounding class and vice versa. In such a way the memento can be implemented as a static nested class of the originator class.
+	Not every programming language has features to facilitate the creation of wide and narrow interfaces. We examine two languages, Java and \cpp, that provide such features and show how they are used.
 	
-	In C++ a class that is marked with the \verb|friend| keyword may access private members of the class. Hence the memento has to declare the originator as a \verb|friend|, as does the originator with the memento.
+	In Java, \emph{static nested classes} can access private members of its surrounding class and vice versa. In such a way the memento can be implemented as a static nested class of the originator class. Listing \ref{Memento.java} shows this concept in practice.
+	
+		% language=c++ works fine here - its pretty much C++, syntactically
+		\begin{lstlisting}[language=c++, caption={Memento.java}, label={Memento.java}]
+class Originator {
+	
+	private String data;
+	
+	public Memento getMemento() {
+		return new Memento(data);
+	}
+	
+	public void setMemento(Memento m) {
+		this.data = m.data;
+	}
+	
+	// This is a static nested class. Its private members can
+	// only be accessed by its outer class. In this context,
+	// 'static' does not mean that
+	static class Memento {
+		private String data;
+	
+		private Memento(String data) {
+			this.data = data;
+		}
+	}
+}
+		\end{lstlisting}
+	
+	In C++ a class that is marked with the \verb|friend| keyword may access private members of the class. Hence the memento has to declare the originator as a \verb|friend|, as does the originator with the memento. How to do so in practice is shown in Section~\ref{subsec:code}.
 	
 	\section{Discussion}
+	Now that we have examined Memento in theory and practice we can discuss when its suitable to use, when we can fit it to a problem and when something else can be used to a greater effect.
+	
 	
 	\subsection{Benefits}
 	\label{sec:benefits}
